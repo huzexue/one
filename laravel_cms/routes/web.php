@@ -11,7 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/edu/index','Edu\IndexController@index')->name('edu.index');
+//主页
+Route::get('/','HomeController@index')->name('home');
+
+//注册
+Route::get('/register','UserController@register')->name('register');
+Route::post('/register','UserController@store')->name('register');
+Route::get('/login','UserController@login')->name('login');
+//验证码
+Route::any('/code/send','Util\CodeController@send')->name('code.send');
