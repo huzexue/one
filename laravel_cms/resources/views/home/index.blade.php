@@ -525,27 +525,32 @@
             </div>
 
             <!-- 头像Dropdown -->
-            {{--<div class="dropdown">--}}
+            @auth()
+            <div class="dropdown">
 
-                {{--<!-- Toggle -->--}}
-                {{--<a href="#" class="avatar avatar-sm avatar-online dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-                    {{--<img src="{{asset('org/assets')}}/img/avatars/profiles/avatar-1.jpg" alt="..." class="avatar-img rounded-circle">--}}
-                {{--</a>--}}
+                <!-- Toggle -->
+                <a href="#" class="avatar avatar-sm avatar-online dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="{{auth()->user()->icon}}" alt="..." class="avatar-img rounded-circle">
+                </a>
 
-                {{--<!-- Menu -->--}}
-                {{--<div class="dropdown-menu dropdown-menu-right">--}}
-                    {{--<a href="profile-posts.html" class="dropdown-item">Profile</a>--}}
-                    {{--<a href="settings.html" class="dropdown-item">Settings</a>--}}
-                    {{--<hr class="dropdown-divider">--}}
-                    {{--<a href="sign-in.html" class="dropdown-item">Logout</a>--}}
-                {{--</div>--}}
+                <!-- Menu -->
+                <div class="dropdown-menu dropdown-menu-right">
+                    <p class="dropdown-item">{{auth()->user()->name}}</p>
+                    @if(auth()->user()->is_admin==1)
+                    <a href="{{route('admin.index')}}" class="dropdown-item">后台管理</a>
+                    @endif
+                    <hr class="dropdown-divider">
+                    <a href="{{route('logout')}}" class="dropdown-item">退出登录</a>
+                </div>
 
-            {{--</div>--}}
+            </div>
+            @else
             {{--登录注册--}}
             <div class="dropdown">
                 <a class="btn btn-link btn-sm" href="{{route('register')}}">还没有账号！去注册</a>
-                <a  class="btn btn-primary btn-sm" href="">登录</a>
+                <a  class="btn btn-primary btn-sm" href="{{route('login')}}">登录</a>
             </div>
+            @endauth
         </div>
 
         <!-- Collapse -->
@@ -1639,6 +1644,7 @@
 
 <!-- Theme JS -->
 <script src="{{asset('org/assets')}}/js/theme.min.js"></script>
-
+@include('layouts.hdjs')
+@include('layouts.message')
 </body>
 </html>

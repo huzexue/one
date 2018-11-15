@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,15 +27,15 @@ class UserRequest extends FormRequest
             'email'=>'email|unique:users',
 			'name'=>'required|min:3',
 			'password'=>'required|min:3|confirmed',
-			'code'=>[
-				'required',
-				function ($attribute, $value, $fail) {
-        			//dd(session('code'));
-					if ($value!=session('code')) {
-						$fail('验证码错误');
-					}
-				},
-			],
+			//'code'=>[
+			//	'required',
+			//	function ($attribute, $value, $fail) {
+        	//		//dd(session('code'));
+			//		if ($value!=session('code')) {
+			//			$fail('验证码错误');
+			//		}
+			//	},
+			//],
 
         ];
 		//return [];
@@ -52,7 +52,7 @@ class UserRequest extends FormRequest
 			'password.required'=>'密码不能为空',
 			'password.min'=>'密码太过简单',
 			'password.confirmed'=>'两次密码不一致',
-			'code.required'=>'验证码不正确',
+			//'code.required'=>'验证码不正确',
 		];
 	}
 }
