@@ -47,7 +47,7 @@ class UserController extends Controller
 			'password.min'=>'密码不正确',
 		]);
 		$res=$request->only('email','password');
-		if(\Auth::attempt($res)){
+		if(\Auth::attempt($res,$request->rem)){
 			return redirect()->route('home')->with('success','登录成功');
 		}
 		return redirect()->back()->with('danger','邮箱或者密码错误');

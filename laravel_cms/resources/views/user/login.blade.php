@@ -61,10 +61,16 @@
 
                 </div>
 
-                <div class="text-sm-right" style="margin-bottom: 20px;">
+                <div class="text-sm-right mb-2" >
                     <small class="text-muted align-text-top" >
                         <a href="{{route('passwordReset')}}">忘记密码？</a>.
                     </small>
+                </div>
+
+
+                <div class="form-check mb-2">
+                    <input type="checkbox" class="form-check-input" name="rem" id="remember" value="1">
+                    <label class="form-check-label" for="remember">记住我!</label>
                 </div>
                 <!-- Submit -->
                 <button class="btn btn-lg btn-block btn-primary mb-3">
