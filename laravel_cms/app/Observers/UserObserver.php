@@ -14,7 +14,7 @@ class UserObserver
      */
     public function created(User $user)
     {
-    	dd(11);
+
 		$user->email_verified_at = now();
 		$user->save();
     }

@@ -14,6 +14,16 @@
 //主页
 Route::get('/','Home\HomeController@index')->name('home');
 //Route::get('/home','Home\HomeController@index')->name('home');
+Route::group(['prefix'=>'home','namespace'=>'Home','as'=>'home.'],function(){
+	Route::get('/','HomeController@index')->name('index');
+	Route::resource('article','ArticleController');
+});
+//会员中心
+Route::group(['prefix'=>'member','namespace'=>'Member','as'=>'member.'],function(){
+
+	Route::resource('/user','UserController');
+});
+
 
 //用户
 //注册
@@ -28,10 +38,14 @@ Route::get('/logout','UserController@logout')->name('logout');
 Route::get('/passwordReset','UserController@passwordReset')->name('passwordReset');
 Route::post('/passwordReset','UserController@passwordResetForm')->name('passwordReset');
 
-
-
 //工具类
-Route::any('/code/send','Util\CodeController@send')->name('code.send');
+Route::group(['prefix'=>'util','namespace'=>'Util','as'=>'util.'],function(){
+	//发送验证码
+	Route::any('/code/send','CodeController@send')->name('code.send');
+	//上传
+	Route::any('/upload','UploadController@uploader')->name('upload');
+	Route::any('/filesLists','UploadController@filesLists')->name('filesLists');
+});
 
 //后台
 Route::group(['middleware'=>['admin.auth'],'prefix'=>'admin','namespace'=>'Admin','as'=>'admin.'],function(){
