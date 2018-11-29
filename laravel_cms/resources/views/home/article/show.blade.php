@@ -7,8 +7,15 @@
                 <div class="card card-body p-5">
                     <div class="row">
                         <div class="col text-right">
-                            <a href="http://www.houdunren.com/common/favorite?model=EduTopic&amp;id=60" class="btn btn-xs">
-                                <i class="fa fa-heart-o" aria-hidden="true"></i> 收藏</a>
+                            @auth()
+                            <a href="{{route('home.collect.make',['type'=>'article','id'=>$article['id']])}}" class="btn btn-xs">
+                                @if($article->collect->where('user_id',auth()->id())->first())
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i> 取消收藏
+                                @else
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i> 收藏
+                                @endif
+                            </a>
+                                @endauth
                         </div>
                     </div>
 
@@ -18,14 +25,14 @@
                                 {{$article['title']}}
                             </h2>
                             <p class="text-muted mb-1 text-muted small">
-                                <a href="" class="text-secondary">
+                                <a href="{{route('home.article.show',$article)}}" class="text-secondary">
                                     <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                </a><a href="" class="text-secondary">{{$article->user->name}}</a>
+                                </a><a href="{{route('member.user.show',$article->user)}}" class="text-secondary">{{$article->user->name}}</a>
 
                                 <i class="fa fa-clock-o ml-2" aria-hidden="true"></i>
                                 {{$article->created_at->diffForHumans()}}
 
-                                <a href="" class="text-secondary">
+                                <a href="{{route('home.article.index',['category'=>$article->category->id])}}" class="text-secondary">
                                     <i class="fa fa-folder-o ml-2" aria-hidden="true"></i>
                                     {{$article->category->title}}
                                 </a>
@@ -41,14 +48,34 @@
                         </div>
                     </div>
 
-
-                </div>
-                <div class="row">
-                    <div class="col text-right">
-                        <a class="btn btn-primary" href="{{route('home.article.index')}}">返回列表</a>
+                    {{--点赞--}}
+                    <div class="text-center">
+                        @auth()
+                            @if($article->zan->where('user_id',auth()->id())->first())
+                                <a class="btn btn-white" href="{{route('home.zan.make',['type'=>'article','id'=>$article['id']])}}">😢取消点赞</a>
+                            @else
+                                <a class="btn btn-white" href="{{route('home.zan.make',['type'=>'article','id'=>$article['id']])}}">👍 赞</a>
+                            @endif
+                        @else
+                            <a class="btn btn-white" href="{{route('login',['from'=>url()->full()])}}">👍 赞</a>
+                        @endauth
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mr--3">
+                            <div class="avatar-group d-none d-sm-flex">
+                                @foreach($article->zan as $zan)
+                                <a href="{{route('member.user.show',$zan->user)}}" class="avatar avatar-xs" data-toggle="tooltip" title="" data-original-title="Ab Hadley">
+                                    <img src="{{$zan->user->icon}}" alt="..." class="avatar-img rounded-circle border border-white">
+                                </a>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
+
                 </div>
+
+                @include('home.layouts.comment')
             </div>
 
             <div class="col-12 col-xl-3">
@@ -62,17 +89,27 @@
                     </div>
                     <div class="card-block text-center p-5">
                         <div class="avatar avatar-xl">
-                            <a href="">
+                            <a href="{{route('member.user.show',$article->user)}}">
                                 <img src="{{$article->user->icon}}" alt="..." class="avatar-img rounded-circle">
                             </a>
                         </div>
                     </div>
+
+                    @auth()
+                        @can('isNotMine',$article->user)
                     <div class="card-footer text-muted">
-                        <a class="btn btn-white btn-block btn-xs" href="http://www.houdunren.com/member/follow/1">
-                            <i class="fa fa-plus" aria-hidden="true"></i> 关注 TA
+                        <a class="btn btn-white btn-block btn-xs" href="{{route('member.attention',$article->user)}}">
+                            @if($article->user->fans->contains(auth()->user()))
+                                <i class="fa fa-minus" aria-hidden="true"></i> 取消关注
+                            @else
+                                <i class="fa fa-plus" aria-hidden="true"></i> 关注 TA
+                            @endif
                         </a>
                     </div>
+                            @endcan
+                        @endauth
                 </div>
+
             </div>
         </div>
     </div>

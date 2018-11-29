@@ -30,14 +30,16 @@ class UserController extends Controller
 	}
 
 	//登录页面
-	public function login(){
+	public function login(Request $request){
 
+		//dd($request->query('from'));
     	return view('user.login');
 	}
 
 	//提交登录信息
 	public function loginForm(Request $request){
-    	//dd($request->all());
+    	//dd($request->rem);
+		//dd($request->from);
 		$this->validate($request,[
 			'email'=>'email',
 			'password'=>'required|min:3',
@@ -48,7 +50,12 @@ class UserController extends Controller
 		]);
 		$res=$request->only('email','password');
 		if(\Auth::attempt($res,$request->rem)){
-			return redirect()->route('home')->with('success','登录成功');
+			if($request->from){
+				return redirect($request->from)->with('success','登录成功');
+			}else{
+				return redirect()->route('home')->with('success','登录成功');
+			}
+
 		}
 		return redirect()->back()->with('danger','邮箱或者密码错误');
 

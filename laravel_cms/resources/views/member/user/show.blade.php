@@ -15,14 +15,17 @@
                                 <div class="card-header">
                                     <div class="row align-items-center">
                                         <div class="col">
-
                                             <!-- Title -->
                                             <h4 class="card-header-title">
-                                               我的文章
+                                                @if(auth()->id() == $user->id)
+                                                    我的文章
+                                                @else
+                                                    他的文章
+                                                @endif
                                             </h4>
 
                                         </div>
-
+                                        @can('isMine',$user)
                                             <div class="col-auto">
                                                 <!-- Button -->
                                                 <a href="{{route('home.article.create')}}" class="btn btn-sm btn-primary">
@@ -30,7 +33,7 @@
                                                 </a>
 
                                             </div>
-
+                                            @endcan
                                     </div> <!-- / .row -->
                                 </div>
 
@@ -60,7 +63,7 @@
 
                                                             <i class="fa fa-clock-o" aria-hidden="true"></i> {{$article->updated_at->diffForHumans()}}
 
-                                                            <a href="javascript:;" class="text-secondary ml-2">
+                                                            <a href="{{route('home.article.index',['category'=>$article->category->id])}}" class="text-secondary ml-2">
                                                                 <i class="fa fa-folder-o" aria-hidden="true"></i> {{$article->category->title}}</a>
                                                         </p>
 
@@ -85,11 +88,11 @@
                                                                 <a href="javascript:;" onclick="del(this)" class="dropdown-item">
                                                                     删除
                                                                 </a>
-                                                                @endcan
+
                                                                 <form action="{{route('home.article.destroy',$article)}}" method="post">
                                                                     @csrf @method('DELETE')
                                                                 </form>
-
+                                                                @endcan
                                                             </div>
                                                         </div>
 

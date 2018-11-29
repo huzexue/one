@@ -1,9 +1,12 @@
 @extends('home.layouts.master')
 @section('content')
-    <div class="container">
+    {{--@can('update',$data)--}}
+    {{--@endcan--}}
+    <div class="container mt-5">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
+
                     <!-- Files -->
                     <div class="card" data-toggle="lists" data-lists-values="[&quot;name&quot;]">
                         <div class="card-header">
@@ -12,44 +15,39 @@
 
                                     <!-- Title -->
                                     <h4 class="card-header-title">
-                                        文章列表
+                                        搜索列表
                                     </h4>
 
                                 </div>
+                                {{--<div class="col-auto">--}}
+
+                                    {{--<!-- Dropdown -->--}}
+                                    {{--<div class="dropdown">--}}
+
+                                        {{--<!-- Toggle -->--}}
+                                        {{--<a href="#!" class="small text-muted dropdown-toggle" data-toggle="dropdown">--}}
+                                            {{--筛选--}}
+                                        {{--</a>--}}
+
+                                        {{--<!-- Menu -->--}}
+                                        {{--<div class="dropdown-menu">--}}
+                                            {{--@foreach($categories as $category)--}}
+                                                {{--<a class="dropdown-item sort" data-sort="name" href="{{route('home.search',['wd'=>Request::query('wd'),'category'=>$category['id']])}}">--}}
+                                                    {{--{{$category['title']}}--}}
+                                                {{--</a>--}}
+                                            {{--@endforeach--}}
+                                        {{--</div>--}}
+
+                                    {{--</div>--}}
+
+                                {{--</div>--}}
                                 <div class="col-auto">
 
-                                    <!-- Dropdown -->
-                                    <div class="dropdown">
-
-                                        <!-- Toggle -->
-                                        <a href="#!" class="small text-muted dropdown-toggle" data-toggle="dropdown">
-                                            筛选
-                                        </a>
-
-                                        <!-- Menu -->
-                                        <div class="dropdown-menu">
-                                            @foreach($categorys as $category)
-                                            <a class="dropdown-item sort"  href="{{route('home.article.index',['category'=>$category['id']])}}">
-                                                {{$category->title}}
-                                            </a>
-                                            @endforeach
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                                <div class="col-auto">
-
-                                    <!-- Button home.article.create-->
-                                    @auth()
+                                    <!-- Button -->
                                     <a href="{{route('home.article.create')}}" class="btn btn-sm btn-primary">
                                         发表文章
                                     </a>
-                                    @else
-                                        <a href="{{route('login',['from'=>url()->full()])}}" class="btn btn-sm btn-primary">
-                                            发表文章
-                                        </a>
-                                    @endauth
+
                                 </div>
                             </div> <!-- / .row -->
                         </div>
@@ -58,35 +56,34 @@
 
                             <!-- List -->
                             <ul class="list-group list-group-lg list-group-flush list my--4">
-                                    @foreach($art as $v)
+                                @if($articles->count()!=0)
+                                @foreach($articles as $article)
                                     <li class="list-group-item px-0">
 
                                         <div class="row align-items-center">
                                             <div class="col-auto">
                                                 <!-- Avatar -->
-                                                <a href="{{route('member.user.show',$v->user)}}" class="avatar avatar-sm">
-                                                    <img src="{{$v->user->icon}}" alt="..." class="avatar-img rounded">
+                                                <a href="{{route('member.user.show',$article->user)}}" class="avatar avatar-sm">
+                                                    <img src="{{$article->user->icon}}" alt="..." class="avatar-img rounded">
                                                 </a>
 
                                             </div>
                                             <div class="col ml--2">
 
-                                                <!-- 标题 -->
+                                                <!-- Title -->
                                                 <h4 class="card-title mb-1 name">
-                                                    <a href="{{route('home.article.show',$v)}}">{{$v->title}}</a>
+                                                    <a href="{{route('home.article.show',$article)}}">{{$article->title}}</a>
                                                 </h4>
 
                                                 <p class="card-text small mb-1">
-                                                    <a href="{{route('member.user.show',$v->user)}}" class="text-secondary mr-2">
-                                                        {{--作者名字--}}
-                                                        <i class="fa fa-user-circle" aria-hidden="true"></i> {{$v->user->name}}
+                                                    <a href="{{route('member.user.show',$article->user)}}" class="text-secondary mr-2">
+                                                        <i class="fa fa-user-circle" aria-hidden="true"></i> {{$article->user->name}}
                                                     </a>
                                                     {{--Carbon 处理时间库--}}
-                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> {{$v->created_at->diffForHumans()}}
+                                                    <i class="fa fa-clock-o" aria-hidden="true"></i> {{$article->created_at->diffForHumans()}}
 
-                                                    <a href="{{route('home.article.index',['category'=>$v->category->id])}}" class="text-secondary ml-2">
-                                                        {{--所属栏目--}}
-                                                        <i class="fa fa-folder-o" aria-hidden="true"></i> {{$v->category->title}}</a>
+                                                    <a href="http://www.houdunren.com/edu/topics_1.html" class="text-secondary ml-2">
+                                                        <i class="fa fa-folder-o" aria-hidden="true"></i> {{$article->category->title}}</a>
                                                 </p>
 
                                             </div>
@@ -98,24 +95,22 @@
                                                         <i class="fe fe-more-vertical"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a href="{{route('home.article.show',$v)}}" class="dropdown-item">
+                                                        <a href="{{route('home.article.show',$article)}}" class="dropdown-item">
                                                             查看详情
                                                         </a>
-
-                                                        @can('update',$v)
-                                                            <a href="{{route('home.article.edit',$v)}}" class="dropdown-item">
+                                                        @can('update',$article)
+                                                            <a href="{{route('home.article.edit',$article)}}" class="dropdown-item">
                                                                 编辑
                                                             </a>
                                                         @endcan
-                                                        @can('delete',$v)
+                                                        @can('delete',$article)
                                                             <a href="javascript:;" onclick="del(this)" class="dropdown-item">
                                                                 删除
                                                             </a>
-                                                            <form action="{{route('home.article.destroy',$v)}}" method="post">
+                                                            <form action="{{route('home.article.destroy',$article)}}" method="post">
                                                                 @csrf @method('DELETE')
                                                             </form>
                                                         @endcan
-
                                                     </div>
                                                 </div>
 
@@ -123,13 +118,19 @@
                                         </div> <!-- / .row -->
 
                                     </li>
-                                    @endforeach
+                                @endforeach
+                                @else
+                                    <h2 class="text-center mt-5 text-muted">没有找到你想要的哦~</h2>
+                                @endif
                             </ul>
 
                         </div>
                     </div>
-                    {{$art->appends(['category' => Request::query('category')])->links()}}
-
+                    {{--自定义分页url--}}
+                    {{--手册位置：分页-->附加参数到分页链接--}}
+                    {{--appends(['参数名' => '参数值'])--}}
+{{--                    {{$articles->appends(['wd' => Request::query('wd'),'category'=>Request::query('category')])->links()}}--}}
+                    {{$articles->appends(['wd' => Request::query('wd')])->links()}}
                 </div>
             </div> <!-- / .row -->
         </div>

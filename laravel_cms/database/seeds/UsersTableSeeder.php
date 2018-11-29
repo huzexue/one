@@ -17,7 +17,7 @@ class UsersTableSeeder extends Seeder
 		//	'email' => str_random(10).'@gmail.com',
 		//	'password' => bcrypt('secret'),
 		//]);
-		factory(App\User::class, 5)->create();
+		factory(App\User::class, 20)->create();
 		$user = \App\User::find(1);
 		$user->name = '后台总管';
 		$user->email = '314330329@qq.com';

@@ -37,7 +37,7 @@
             </p>
 
             <!-- Form -->
-            <form action="{{route('login')}}" method="post">
+            <form action="{{route('login',['from'=>Request::query('from')])}}" method="post">
                 @csrf
                 <!-- Email address -->
                 <div class="form-group">
