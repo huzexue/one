@@ -29,13 +29,13 @@ class UploadController extends Controller
 	}
 
 	protected function checkSize($file){
-		if($file->getSize() > 20000000){
+		if($file->getSize() > hh_config('upload.size')){
 			throw new UploadException('文件超过限制大小');
 		}
 	}
 
 	protected function checkType($file){
-		if(!in_array(strtolower($file->getClientOriginalExtension()),['jpg','png','jpeg'])){
+		if(!in_array(strtolower($file->getClientOriginalExtension()),explode(hh_config('upload.type')))){
 
 			throw new UploadException('类型不允许');
 		}

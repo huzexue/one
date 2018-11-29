@@ -1,52 +1,49 @@
 @extends('admin.layouts.master')
 @section('content')
     <div class="container-fluid">
-        <!-- Header -->
-        <div class="header mt-md-2">
-            <div class="header-body">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <!-- Title -->
-                        <h2 class="header-title">
-                            栏目管理
-                        </h2>
-
-                    </div>
-
-                </div> <!-- / .row -->
-                <div class="row align-items-center">
-                    <div class="col">
-
-                        <!-- Nav -->
-                        <ul class="nav nav-tabs nav-overflow header-tabs">
-                            <li class="nav-item">
-                                <a href="{{route('admin.category.index')}}" class="nav-link ">
-                                    栏目列表
-                                </a>
-
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('admin.category.create')}}" class="nav-link active">
-                                    添加栏目
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-auto">
-
-                        <!-- Buttons -->
-                        <a href="{{route('admin.category.create')}}" class="btn btn-white btn-sm">
-                            添加栏目
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10 col-xl-8">
+                <div class="header mt-md-2">
+                    <div class="header-body">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <!-- Title -->
+                                <h2 class="header-title">
+                                    栏目管理
+                                </h2>
 
+                            </div>
+
+                        </div> <!-- / .row -->
+                        <div class="row align-items-center">
+                            <div class="col">
+
+                                <!-- Nav -->
+                                <ul class="nav nav-tabs nav-overflow header-tabs">
+                                    <li class="nav-item">
+                                        <a href="{{route('admin.category.index')}}" class="nav-link ">
+                                            栏目列表
+                                        </a>
+
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{route('admin.category.create')}}" class="nav-link active">
+                                            添加栏目
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-auto">
+
+                                <!-- Buttons -->
+                                <a href="{{route('admin.category.create')}}" class="btn btn-white btn-sm">
+                                    添加栏目
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="card">
                     <div class="card-body">

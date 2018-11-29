@@ -72,5 +72,8 @@ Route::group(['prefix'=>'util','namespace'=>'Util','as'=>'util.'],function(){
 Route::group(['middleware'=>['admin.auth'],'prefix'=>'admin','namespace'=>'Admin','as'=>'admin.'],function(){
 	Route::get('/index','IndexController@index')->name('index');
 	Route::resource('/category','CategoryController');
+	//配置
+	Route::get('config/edit/{name}','ConfigController@edit')->name('config.edit');
+	Route::post('config/update/{name}','ConfigController@update')->name('config.update');
 });
 

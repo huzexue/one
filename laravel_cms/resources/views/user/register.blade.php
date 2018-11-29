@@ -43,7 +43,7 @@
                     <label>
                         邮箱
                     </label>
-                    <input type="email" name="email" value="314330329@qq.com" class="form-control" placeholder="请输入邮箱">
+                    <input type="email" name="email"  class="form-control" placeholder="请输入邮箱">
                 </div>
 
                 <div class="form-group">
@@ -72,7 +72,7 @@
                         验证码
                     </label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Recipient's username" name="code" value="5682" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <input type="text" class="form-control" placeholder="Recipient's username" name="code" aria-label="Recipient's username" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary" type="button" id="bt">发送验证码</button>
                         </div>
@@ -116,7 +116,7 @@
             //后台链接
             url: '{{route('util.code.send')}}',
             //验证码等待发送时间
-            timeout: 10,
+            timeout: '{{hh_config('code.code_expires')}}',
             //表单，手机号或邮箱的INPUT表单
             input: '[name="email"]'
         };
